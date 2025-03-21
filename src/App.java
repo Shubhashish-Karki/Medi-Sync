@@ -7,9 +7,12 @@ import database.MedicineDAO;
 import models.Medicine;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-import javax.swing.JScrollPane;
+
 import ui.CustomPanel;
 import ui.UpdateMedicineForm;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import utils.ReminderScheduler;
 
 public class App {
     public static void main(String[] args) {
@@ -48,7 +51,7 @@ public class App {
                 addFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
                 JPanel addPanel = new JPanel();
-                addPanel.setLayout(new GridLayout(7, 2));  // 7 rows, 2 columns
+                addPanel.setLayout(new GridLayout(8, 2));  // 7 rows, 2 columns
                 addFrame.add(addPanel);
 
                 JLabel nameLabel = new JLabel("Medication Name:");
@@ -64,7 +67,9 @@ public class App {
                 JLabel notesLabel = new JLabel("Notes:");
                 JTextArea notesArea = new JTextArea(5, 20);
 
-                
+                //for notification
+                JLabel reminderLabel = new JLabel("Reminder Time (HH:mm):");
+                JTextField reminderTimeField = new JTextField(5);
 
                 JButton submitButton = new JButton("Add Medication");
 
@@ -80,6 +85,12 @@ public class App {
                 addPanel.add(endField);
                 addPanel.add(notesLabel);
                 addPanel.add(new JScrollPane(notesArea));
+
+
+                //Add reminder field to form
+                addPanel.add(reminderLabel);
+                addPanel.add(reminderTimeField);
+
                 addPanel.add(submitButton);
 
                 // Action when submitting the form
@@ -92,6 +103,7 @@ public class App {
                         String startDateStr = startField.getText();
                         String endDateStr = endField.getText();
                         String notes = notesArea.getText();
+                        String reminderTimeStr = reminderTimeField.getText();
 
                         try {
                             // Convert start and end dates to java.sql.Date
@@ -100,14 +112,24 @@ public class App {
                             java.util.Date endDate = sdf.parse(endDateStr);
                             Date sqlStartDate = new Date(startDate.getTime());
                             Date sqlEndDate = new Date(endDate.getTime());
+
+                            //Parse reminder time 
+                            LocalTime reminderTime = LocalTime.parse(reminderTimeStr, DateTimeFormatter.ofPattern("HH:mm"));
                             
                             //(int med_id, String med_name, String med_dosage, String frequency, Date start_date, Date end_date, String notes) {
                             // Create a Medicine object
+
+                            //Create a Medicine object
                             Medicine med = new Medicine(name, dosage, frequency, sqlStartDate, sqlEndDate, notes);
 
                             // Use MedicineDAO to insert the medication
                             MedicineDAO medicineDAO = new MedicineDAO();
                             medicineDAO.addMedication(med);
+
+                            //Get generated med_id
+                            int medId = medicineDAO.getLastInsertedId(); 
+
+                            ReminderScheduler.scheduleReminder(medId, name,reminderTime);
 
                             // Close the form after submission
                             addFrame.dispose();

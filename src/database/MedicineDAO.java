@@ -71,7 +71,7 @@ public class MedicineDAO {
                 e.printStackTrace();
 
 
-                
+
             }
           
             return medicines;
@@ -119,6 +119,21 @@ public Medicine getMedicineById(int medId) {
     return null;
 }
 
+    //get last inserted id
+    public int getLastInsertedId(){
+        String query = "SELECT LAST_INSERT_ID()";
+        try(
+        Connection conn = DatabaseHelper.connect();
+        PreparedStatement pstmt = conn.prepareStatement(query);
+        ResultSet rs = pstmt.executeQuery()){
+            if(rs.next()){
+                return rs.getInt(1);
+            }
+        } catch(SQLException e){
+            e.printStackTrace();
+        }
+        return -1;
+    }
 
     public void updateMedcation(Medicine med){
         String query = "UPDATE medications SET med_name = ?, dosage =?, frequency = ?, start_date = ?, end_date = ?, notes = ? WHERE med_id = ?";

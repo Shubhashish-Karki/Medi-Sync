@@ -1,6 +1,7 @@
 package models;
 // import java.sql.Time;
 import java.sql.Date;
+import java.time.LocalTime;
 
 
 
@@ -12,6 +13,7 @@ public class Medicine {
     private Date start_date;
     private Date end_date;
     private String notes;
+    private LocalTime reminderTime;
 
     public Medicine(String med_name, String med_dosage, String frequency, Date start_date, Date end_date, String notes) {
         // this.med_id = med_id;
