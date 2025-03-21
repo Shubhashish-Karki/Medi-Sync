@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 public class DatabaseHelper {
     private static final String URL = "jdbc:mysql://localhost:3306/medicine_tracker";
-    private static final String USER = "root";
-    private static final String PASSWORD = "!@#mySQL123";
+    private static final String USER = "replace_with_your_username";
+    private static final String PASSWORD = "replace_with_your_password";
 
 
     public static Connection connect(){
