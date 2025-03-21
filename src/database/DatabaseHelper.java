@@ -23,8 +23,4 @@ public class DatabaseHelper {
         }
     }
 
-    // public static void main(String[] args) {
-    //     //Test the connection
-    //     connect();
-    // }
 }
