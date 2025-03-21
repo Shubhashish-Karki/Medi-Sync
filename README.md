@@ -97,21 +97,4 @@ public class DatabaseHelper {
 
 Make sure to replace `your_username` and `your_password` with your actual database credentials.
 
-## Contribution
 
-If you would like to contribute to this project, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
-3. Commit your changes and push to your fork.
-4. Open a pull request to merge your changes into the main repository.
-
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Contact
-For any questions or feedback, please contact [your-email@example.com].
-
----
-
-This README provides a comprehensive guide to setting up and using the Medi-Sync project. Feel free to explore the code and contribute to its development!
