@@ -7,7 +7,6 @@ import database.MedicineDAO;
 import models.Medicine;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-
 import ui.CustomPanel;
 import ui.UpdateMedicineForm;
 import java.time.LocalTime;
@@ -16,30 +15,54 @@ import utils.ReminderScheduler;
 
 public class App {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Medicine Tracker");
+        JFrame frame = new JFrame("Medi Sync");
         frame.setSize(600, 500);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout()); // Use BorderLayout for overall frame layout
 
-
-        //Background Image
+        // Background Image Panel
         CustomPanel panel = new CustomPanel("/resources/images/background.jpg");
-        frame.add(panel);
-        // JPanel panel = new JPanel();
-        // frame.add(panel);
-        // panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10)); // FlowLayout centers the buttons horizontally
+        frame.add(panel, BorderLayout.CENTER); // Add it to the center of the frame
 
-        JButton addButton = new JButton("Add Medication");
-        JButton viewButton  = new JButton("View Medications");
-        JButton updateButton = new JButton("Update Medication");
+        // Header Label (At the Top)
+        JLabel header = new JLabel("MediSync", JLabel.CENTER);
+        header.setFont(new Font("Arial", Font.BOLD, 24));
+        header.setOpaque(true);
+        header.setBackground(new Color(52, 152, 219));
+        header.setForeground(Color.WHITE);
+        header.setPreferredSize(new Dimension(frame.getWidth(), 50));
+        frame.add(header, BorderLayout.NORTH); // Add header to the top
 
-        //Add "Add" button
+        // Buttons
+        JButton addButton = new JButton("➕ Add Medicine");
+        JButton viewButton = new JButton("📋 View Medicines");
+        JButton updateButton = new JButton("✏️ Update Medicine");
+        JButton exitButton = new JButton("❌ Exit");
+
+        // Add buttons to panel
         panel.add(addButton);
-
-        //Add "View" button
         panel.add(viewButton);
-
-        //Add "Update" button
         panel.add(updateButton);
+        panel.add(exitButton);
+
+        // //Add "Add" button
+        // panel.add(addButton);
+
+        // //Add "View" button
+        // panel.add(viewButton);
+
+        // //Add "Update" button
+        // panel.add(updateButton);
+
+        //add exitlistener
+        exitButton.addActionListener(e -> {
+
+            int response = JOptionPane.showConfirmDialog(frame, "Are you sure you want to exit?", "Exit", JOptionPane.YES_NO_OPTION);
+            if (response == JOptionPane.YES_OPTION) {
+                System.exit(0);
+            }
+        });
 
         //  add ActionListener
         addButton.addActionListener(new ActionListener() {
@@ -190,4 +213,7 @@ public class App {
         updateButton.addActionListener(e ->new UpdateMedicineForm());
         frame.setVisible(true);
     }
+
+     
+
 }
